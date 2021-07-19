@@ -16,6 +16,13 @@
 #include "util/check.hpp"
 #include "util/cpu-features.hpp"
 
+#include "/home3/teppei14860623/SEAL_ori/SEAL_research_comp/native/researches_double/matvec.h"
+double calcTime_overall_hexl(){
+    struct timespec getTime;
+    clock_gettime(CLOCK_MONOTONIC, &getTime);
+    return (getTime.tv_sec + getTime.tv_nsec*1e-9) *1000;
+}
+
 namespace intel {
 namespace hexl {
 
@@ -174,15 +181,20 @@ void NTT::NTTImpl::ComputeForward(uint64_t* result, const uint64_t* operand,
 #endif
 
 #ifdef HEXL_HAS_AVX512DQ
+  double start,end;
   if (has_avx512dq && m_degree >= 16) {
     HEXL_VLOG(3, "Calling 64-bit AVX512 NTT");
     const uint64_t* root_of_unity_powers = GetRootOfUnityPowersPtr();
     const uint64_t* precon_root_of_unity_powers =
         GetPrecon64RootOfUnityPowersPtr();
 
+    start = calcTime_overall_hexl();
     ForwardTransformToBitReverseAVX512<s_default_shift_bits>(
         result, m_degree, m_q, root_of_unity_powers,
         precon_root_of_unity_powers, input_mod_factor, output_mod_factor);
+    end = calcTime_overall_hexl();
+
+    fwd_time = fwd_time + (end-start);
     return;
   }
 #endif
