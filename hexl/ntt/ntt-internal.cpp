@@ -17,7 +17,8 @@
 #include "ntt/inv-ntt-avx512.hpp"
 #include "util/cpu-features.hpp"
 
-#include "/home3/teppei14860623/SEAL_ori/SEAL_research_comp/native/researches_double/matvec.h"
+//#include "/home3/teppei14860623/SEAL_ori/SEAL_research_comp/native/researches_double/matvec.h"
+#include "/home3/teppei14860623/SEAL_ori/SEAL_3.6.6/native/researches_double/matvec.h"
 double calcTime_overall_hexl(){
     struct timespec getTime;
     clock_gettime(CLOCK_MONOTONIC, &getTime);
@@ -226,7 +227,7 @@ void NTT::ComputeForward(uint64_t* result, const uint64_t* operand,
           precon_root_of_unity_powers, input_mod_factor, output_mod_factor);
       end = calcTime_overall_hexl();
 
-      fwd_time = fwd_time + (end-start);
+      fwd32_time = fwd32_time + (end-start);
     } else {
       HEXL_VLOG(3, "Calling 64-bit AVX512-DQ FwdNTT");
       const uint64_t* root_of_unity_powers =
