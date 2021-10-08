@@ -16,8 +16,7 @@
 #include "util/check.hpp"
 #include "util/cpu-features.hpp"
 
-//#include "/home3/teppei14860623/SEAL_ori/SEAL_research_comp/native/researches_double/matvec.h"
-#include "/home3/teppei14860623/SEAL_ori/SEAL_3.6.6/native/researches_double/matvec.h"
+#include "/homer5/teppei14860623/SEAL_library/SEAL_3.7.1/native/researches_double/matvec.h"
 double calcTime_overall_hexl(){
     struct timespec getTime;
     clock_gettime(CLOCK_MONOTONIC, &getTime);
